@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ColorSettings" load_steps=2 format=3 uid="uid://cna0ve6uk0y8u"]
+
+[ext_resource type="Script" uid="uid://3l58uroyco4e" path="res://scenes/planet_generation/ColorSettings.cs" id="1_4e16q"]
+
+[resource]
+script = ExtResource("1_4e16q")
+PlanetColor = Color(0.886211, 0.131713, 0.423658, 0.466667)
+metadata/_custom_type_script = "uid://3l58uroyco4e"

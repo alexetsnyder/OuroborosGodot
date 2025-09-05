@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="ShapeSettings" load_steps=8 format=3 uid="uid://oqu3fcsarbrn"]
+
+[ext_resource type="Script" uid="uid://dmmnym0n40geh" path="res://NoiseSettings.cs" id="1_mhobg"]
+[ext_resource type="Script" uid="uid://o1s4wq1rbs4k" path="res://NoiseLayer.cs" id="2_w8hb2"]
+[ext_resource type="Script" uid="uid://dnwmwma414u6l" path="res://ShapeSettings.cs" id="3_cuidh"]
+
+[sub_resource type="Resource" id="Resource_cuidh"]
+script = ExtResource("1_mhobg")
+NumLayers = 4
+Strength = 0.12
+BaseRoughness = 0.55
+Roughness = 2.34
+Persistence = 0.54
+Center = Vector3(0, 0, 0)
+MinValue = 1.06
+metadata/_custom_type_script = "uid://dmmnym0n40geh"
+
+[sub_resource type="Resource" id="Resource_iysio"]
+script = ExtResource("2_w8hb2")
+Enabled = true
+UseFirstLayerAsMask = false
+NoiseSettings = SubResource("Resource_cuidh")
+metadata/_custom_type_script = "uid://o1s4wq1rbs4k"
+
+[sub_resource type="Resource" id="Resource_8vbm4"]
+script = ExtResource("1_mhobg")
+NumLayers = 5
+Strength = 5.0
+BaseRoughness = 1.08
+Roughness = 2.34
+Persistence = 0.5
+Center = Vector3(0, 0, 0)
+MinValue = 1.25
+metadata/_custom_type_script = "uid://dmmnym0n40geh"
+
+[sub_resource type="Resource" id="Resource_h0wou"]
+script = ExtResource("2_w8hb2")
+Enabled = true
+UseFirstLayerAsMask = true
+NoiseSettings = SubResource("Resource_8vbm4")
+metadata/_custom_type_script = "uid://o1s4wq1rbs4k"
+
+[resource]
+script = ExtResource("3_cuidh")
+PlanetRadius = 3.0
+NoiseLayers = Array[Object]([SubResource("Resource_iysio"), SubResource("Resource_h0wou")])
+metadata/_custom_type_script = "uid://dnwmwma414u6l"
