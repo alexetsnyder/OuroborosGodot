@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://colmpj4mxgury"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jcv8b"]
+
+[node name="Planet" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_jcv8b")
