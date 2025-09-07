@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://bfyydy7goqqx2"]
+
+[ext_resource type="Texture2D" uid="uid://ct2hhwxejbkwb" path="res://assets/sprites/DiceSpriteSheet.png" id="1_4rx5q"]
+[ext_resource type="Script" uid="uid://m2tu4dthn2l0" path="res://scenes/die/DieController.cs" id="1_vq5di"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vq5di"]
+atlas = ExtResource("1_4rx5q")
+region = Rect2(0, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11crt"]
+atlas = ExtResource("1_4rx5q")
+region = Rect2(120, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avpxk"]
+atlas = ExtResource("1_4rx5q")
+region = Rect2(240, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wm03m"]
+atlas = ExtResource("1_4rx5q")
+region = Rect2(360, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g63ur"]
+atlas = ExtResource("1_4rx5q")
+region = Rect2(480, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30nb5"]
+atlas = ExtResource("1_4rx5q")
+region = Rect2(600, 0, 120, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xl0wk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vq5di")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11crt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avpxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wm03m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g63ur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30nb5")
+}],
+"loop": true,
+"name": &"roll",
+"speed": 7.0
+}]
+
+[node name="Die" type="Node2D"]
+script = ExtResource("1_vq5di")
+
+[node name="DieRoll" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xl0wk")
+animation = &"roll"

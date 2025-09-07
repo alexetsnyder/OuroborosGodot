@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dd5lnv0fo78no"]
+
+[ext_resource type="Script" uid="uid://cuk75b6pemaio" path="res://scenes/Main.cs" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://bfyydy7goqqx2" path="res://scenes/die/die.tscn" id="2_0wfyh"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_o5qli")
+
+[node name="Die" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(272, 283)
+
+[node name="Roll" type="Button" parent="."]
+offset_left = 373.0
+offset_top = 223.0
+offset_right = 532.0
+offset_bottom = 345.0
+theme_override_font_sizes/font_size = 44
+text = "Roll"
+
+[node name="RollTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="pressed" from="Roll" to="." method="OnRollPressed"]
+[connection signal="timeout" from="RollTimer" to="." method="OnRollTimerTimeout"]
