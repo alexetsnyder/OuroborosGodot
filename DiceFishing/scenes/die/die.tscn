@@ -59,3 +59,8 @@ script = ExtResource("1_vq5di")
 [node name="DieRoll" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xl0wk")
 animation = &"roll"
+
+[node name="RollTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="RollTimer" to="." method="OnRollTimerTimeout"]

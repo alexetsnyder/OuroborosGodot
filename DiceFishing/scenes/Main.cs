@@ -1,25 +1,36 @@
 using Godot;
+using System.Linq;
 
 public partial class Main : Node
 {
-    private DieController _dieController;
+    private const int DieCount = 5;
 
-    private Timer _rollTimer;
+    private DieController[] _dieControllers;
 
     public override void _Ready()
     {
-        _dieController = GetNode<DieController>("Die");
-        _rollTimer = GetNode<Timer>("RollTimer");
+        _dieControllers = new DieController[DieCount];
+        for (int i = 0; i < DieCount; i++)
+        {
+            _dieControllers[i] = GetNode<DieController>($"Dice/Die{i + 1}");
+        }
     }
 
     public void OnRollPressed()
     {
-        _dieController.Roll();
-        _rollTimer.Start();
+        for (int i = 0; i < DieCount; i++)
+        {
+            _dieControllers[i].Roll(i + 1);
+        }
     }
 
-    public void OnRollTimerTimeout()
+    public void OnDieRolled()
     {
-        _dieController.Stop();
+        bool allDiceRolled =_dieControllers.All(d => !d.IsRolling);
+
+        if (allDiceRolled)
+        {
+            GD.Print($"All Dice Rolled. Value: {_dieControllers.Sum(d => d.Value)}");
+        }
     }
 }

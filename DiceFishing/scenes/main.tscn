@@ -6,20 +6,34 @@
 [node name="Main" type="Node2D"]
 script = ExtResource("1_o5qli")
 
-[node name="Die" parent="." instance=ExtResource("2_0wfyh")]
-position = Vector2(272, 283)
-
 [node name="Roll" type="Button" parent="."]
-offset_left = 373.0
-offset_top = 223.0
-offset_right = 532.0
-offset_bottom = 345.0
+offset_left = 168.0
+offset_top = 272.0
+offset_right = 327.0
+offset_bottom = 394.0
 theme_override_font_sizes/font_size = 44
 text = "Roll"
 
-[node name="RollTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
+[node name="Dice" type="Node2D" parent="."]
+
+[node name="Die1" parent="Dice" instance=ExtResource("2_0wfyh")]
+position = Vector2(72, 72)
+
+[node name="Die2" parent="Dice" instance=ExtResource("2_0wfyh")]
+position = Vector2(72, 200)
+
+[node name="Die3" parent="Dice" instance=ExtResource("2_0wfyh")]
+position = Vector2(72, 328)
+
+[node name="Die4" parent="Dice" instance=ExtResource("2_0wfyh")]
+position = Vector2(72, 456)
+
+[node name="Die5" parent="Dice" instance=ExtResource("2_0wfyh")]
+position = Vector2(72, 584)
 
 [connection signal="pressed" from="Roll" to="." method="OnRollPressed"]
-[connection signal="timeout" from="RollTimer" to="." method="OnRollTimerTimeout"]
+[connection signal="DieRolled" from="Dice/Die1" to="." method="OnDieRolled"]
+[connection signal="DieRolled" from="Dice/Die2" to="." method="OnDieRolled"]
+[connection signal="DieRolled" from="Dice/Die3" to="." method="OnDieRolled"]
+[connection signal="DieRolled" from="Dice/Die4" to="." method="OnDieRolled"]
+[connection signal="DieRolled" from="Dice/Die5" to="." method="OnDieRolled"]
