@@ -1,7 +1,7 @@
 using Godot;
 using System.Linq;
 
-public partial class Main : Node
+public partial class Main : Node2D
 {
     private const int DieCount = 5;
 
@@ -13,6 +13,36 @@ public partial class Main : Node
         for (int i = 0; i < DieCount; i++)
         {
             _dieControllers[i] = GetNode<DieController>($"Dice/Die{i + 1}");
+        }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton inputEventMouseButton && 
+            inputEventMouseButton.ButtonIndex == MouseButton.Left)
+        {
+            if (@event.IsPressed())
+            {
+                RaycastFromMousePosition();
+            }
+            else
+            {
+                GD.Print("Left Click Released!");
+            }
+        }
+    }
+
+    private void RaycastFromMousePosition()
+    {
+        var spaceState = GetWorld2D().DirectSpaceState;
+        var query = new PhysicsPointQueryParameters2D();
+        query.Position = GetGlobalMousePosition();
+        query.CollideWithAreas = true;
+        query.CollisionMask = 1;
+        var result = spaceState.IntersectPoint(query);
+        if (result.Count > 0)
+        {
+            GD.Print($"Clicked on: {result[0]["collider"]}");
         }
     }
 
