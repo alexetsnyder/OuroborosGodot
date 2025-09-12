@@ -33,4 +33,14 @@ public partial class Main : Node
             GD.Print($"All Dice Rolled. Value: {_dieControllers.Sum(d => d.Value)}");
         }
     }
+
+    public void OnDieHoverOn(Area2D emitter)
+    {
+        emitter.Scale = new Vector2(1.05f, 1.05f);
+    }
+
+    public void OnDieHoverOff(Area2D emitter)
+    {
+        emitter.Scale = new Vector2(1f, 1f);
+    }
 }

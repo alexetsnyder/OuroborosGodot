@@ -1,7 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfyydy7goqqx2"]
+[gd_scene load_steps=11 format=3 uid="uid://bfyydy7goqqx2"]
 
 [ext_resource type="Texture2D" uid="uid://ct2hhwxejbkwb" path="res://assets/sprites/DiceSpriteSheet.png" id="1_4rx5q"]
 [ext_resource type="Script" uid="uid://m2tu4dthn2l0" path="res://scenes/die/DieController.cs" id="1_vq5di"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vq5di"]
+size = Vector2(115, 116)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vq5di"]
 atlas = ExtResource("1_4rx5q")
@@ -53,14 +56,22 @@ animations = [{
 "speed": 7.0
 }]
 
-[node name="Die" type="Node2D"]
+[node name="Die" type="Area2D"]
 script = ExtResource("1_vq5di")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_vq5di")
+
 [node name="DieRoll" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.5, 0)
+scale = Vector2(0.991667, 1)
 sprite_frames = SubResource("SpriteFrames_xl0wk")
 animation = &"roll"
 
 [node name="RollTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]
+[connection signal="mouse_exited" from="." to="." method="OnMouseExited"]
 [connection signal="timeout" from="RollTimer" to="." method="OnRollTimerTimeout"]

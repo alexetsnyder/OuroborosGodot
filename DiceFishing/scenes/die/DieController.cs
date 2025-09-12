@@ -1,9 +1,15 @@
 using Godot;
 
-public partial class DieController : Node
+public partial class DieController : Area2D
 {
     [Signal]
     public delegate void DieRolledEventHandler();
+
+    [Signal]
+    public delegate void OnHoverOnEventHandler(Area2D emitter);
+
+    [Signal]
+    public delegate void OnHoverOffEventHandler(Area2D emitter);
 
     private const int FrameCount = 5;
 
@@ -49,5 +55,15 @@ public partial class DieController : Node
     {
         Stop();
         EmitSignal(SignalName.DieRolled);
+    }
+
+    public void OnMouseEntered()
+    {
+        EmitSignal(SignalName.OnHoverOn, this);
+    }
+
+    public void OnMouseExited()
+    {
+        EmitSignal(SignalName.OnHoverOff, this);
     }
 }
