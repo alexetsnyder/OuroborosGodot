@@ -24,12 +24,15 @@ public partial class DieController : Area2D
 
     private Timer _rollTimer;
 
+    private ColorRect _colorRect;
+
     private int _currentFrame = 0;
 
     public override void _Ready()
     {
         _dieRoll = GetNode<AnimatedSprite2D>("DieRoll");
         _rollTimer = GetNode<Timer>("RollTimer");
+        _colorRect = GetNode<ColorRect>("DieOutline");
     }
 
     /// <summary>
@@ -49,6 +52,16 @@ public partial class DieController : Area2D
         _dieRoll.Stop();
         _currentFrame = GD.RandRange(0, FrameCount);
         _dieRoll.Frame = _currentFrame;
+    }
+
+    public void ShowOutline()
+    {
+        _colorRect.Visible = true;
+    }
+
+    public void HideOutline()
+    {
+        _colorRect.Visible = false;
     }
 
     public void OnRollTimerTimeout()

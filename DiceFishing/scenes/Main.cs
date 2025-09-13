@@ -5,14 +5,14 @@ public partial class Main : Node2D
 {
     private const int DieCount = 5;
 
-    private DieController[] _dieControllers;
+    private DieController[] _dice;
 
     public override void _Ready()
     {
-        _dieControllers = new DieController[DieCount];
+        _dice = new DieController[DieCount];
         for (int i = 0; i < DieCount; i++)
         {
-            _dieControllers[i] = GetNode<DieController>($"Dice/Die{i + 1}");
+            _dice[i] = GetNode<DieController>($"Dice/Die{i + 1}");
         }
     }
 
@@ -23,16 +23,23 @@ public partial class Main : Node2D
         {
             if (@event.IsPressed())
             {
-                RaycastFromMousePosition();
-            }
-            else
-            {
-                GD.Print("Left Click Released!");
+                var collider = RaycastFromMousePosition();
+                if (collider != null)
+                {
+                    collider.ShowOutline();
+                }
+                else
+                {
+                    foreach (var die in _dice)
+                    {
+                        die.HideOutline();
+                    }
+                }
             }
         }
     }
 
-    private void RaycastFromMousePosition()
+    private DieController RaycastFromMousePosition()
     {
         var spaceState = GetWorld2D().DirectSpaceState;
         var query = new PhysicsPointQueryParameters2D();
@@ -40,31 +47,36 @@ public partial class Main : Node2D
         query.CollideWithAreas = true;
         query.CollisionMask = 1;
         var results = spaceState.IntersectPoint(query);
+
         foreach (var result in results)
         {
-            Area2D collider = result["collider"].As<Area2D>();
+            DieController collider = result["collider"].As<DieController>();
             if (collider != null)
             {
                 GD.Print($"Collided with: {collider.Name}");
+                return collider;
+
             }
         }
+
+        return null;
     }
 
     public void OnRollPressed()
     {
         for (int i = 0; i < DieCount; i++)
         {
-            _dieControllers[i].Roll(i + 1);
+            _dice[i].Roll(i + 1);
         }
     }
 
     public void OnDieRolled()
     {
-        bool allDiceRolled =_dieControllers.All(d => !d.IsRolling);
+        bool allDiceRolled =_dice.All(d => !d.IsRolling);
 
         if (allDiceRolled)
         {
-            GD.Print($"All Dice Rolled. Value: {_dieControllers.Sum(d => d.Value)}");
+            GD.Print($"All Dice Rolled. Value: {_dice.Sum(d => d.Value)}");
         }
     }
 
