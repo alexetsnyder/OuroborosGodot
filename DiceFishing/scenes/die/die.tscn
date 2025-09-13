@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bfyydy7goqqx2"]
 
 [ext_resource type="Texture2D" uid="uid://ct2hhwxejbkwb" path="res://assets/sprites/DiceSpriteSheet.png" id="1_4rx5q"]
-[ext_resource type="Script" uid="uid://m2tu4dthn2l0" path="res://scenes/die/DieController.cs" id="1_vq5di"]
+[ext_resource type="Script" uid="uid://m2tu4dthn2l0" path="res://scenes/die/Die.cs" id="1_vq5di"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vq5di"]
 size = Vector2(115, 116)

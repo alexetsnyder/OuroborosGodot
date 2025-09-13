@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class DieController : Area2D
+public partial class Die : Area2D
 {
     [Signal]
     public delegate void DieRolledEventHandler();

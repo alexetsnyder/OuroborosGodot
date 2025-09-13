@@ -5,14 +5,14 @@ public partial class Main : Node2D
 {
     private const int DieCount = 5;
 
-    private DieController[] _dice;
+    private Die[] _dice;
 
     public override void _Ready()
     {
-        _dice = new DieController[DieCount];
+        _dice = new Die[DieCount];
         for (int i = 0; i < DieCount; i++)
         {
-            _dice[i] = GetNode<DieController>($"Dice/Die{i + 1}");
+            _dice[i] = GetNode<Die>($"Dice/Die{i + 1}");
         }
     }
 
@@ -39,7 +39,7 @@ public partial class Main : Node2D
         }
     }
 
-    private DieController RaycastFromMousePosition()
+    private Die RaycastFromMousePosition()
     {
         var spaceState = GetWorld2D().DirectSpaceState;
         var query = new PhysicsPointQueryParameters2D();
@@ -50,7 +50,7 @@ public partial class Main : Node2D
 
         foreach (var result in results)
         {
-            DieController collider = result["collider"].As<DieController>();
+            Die collider = result["collider"].As<Die>();
             if (collider != null)
             {
                 GD.Print($"Collided with: {collider.Name}");
