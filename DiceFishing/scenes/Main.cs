@@ -39,10 +39,14 @@ public partial class Main : Node2D
         query.Position = GetGlobalMousePosition();
         query.CollideWithAreas = true;
         query.CollisionMask = 1;
-        var result = spaceState.IntersectPoint(query);
-        if (result.Count > 0)
+        var results = spaceState.IntersectPoint(query);
+        foreach (var result in results)
         {
-            GD.Print($"Clicked on: {result[0]["collider"]}");
+            Area2D collider = result["collider"].As<Area2D>();
+            if (collider != null)
+            {
+                GD.Print($"Collided with: {collider.Name}");
+            }
         }
     }
 
