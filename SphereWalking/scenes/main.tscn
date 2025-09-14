@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd3xjlc4dd6dm"]
+
+[ext_resource type="PackedScene" uid="uid://cwdroxqm0b55r" path="res://scenes/player/player.tscn" id="1_o5qli"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sgp6g"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_o5qli"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.848852, 0.528631, 0, -0.528631, 0.848852, 0, 3.50283, 1.44781)
+
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 1.12342, 0)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_sgp6g")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_o5qli")
