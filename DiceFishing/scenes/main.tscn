@@ -7,12 +7,29 @@
 script = ExtResource("1_o5qli")
 
 [node name="Roll" type="Button" parent="."]
-offset_left = 168.0
-offset_top = 272.0
-offset_right = 327.0
-offset_bottom = 394.0
+offset_left = 180.0
+offset_top = 157.0
+offset_right = 393.0
+offset_bottom = 279.0
 theme_override_font_sizes/font_size = 44
 text = "Roll"
+
+[node name="Clear" type="Button" parent="."]
+offset_left = 178.0
+offset_top = 290.0
+offset_right = 391.0
+offset_bottom = 412.0
+theme_override_font_sizes/font_size = 44
+text = "Clear "
+autowrap_mode = 2
+
+[node name="Evaluate" type="Button" parent="."]
+offset_left = 179.0
+offset_top = 425.0
+offset_right = 392.0
+offset_bottom = 547.0
+theme_override_font_sizes/font_size = 44
+text = "Evaluate"
 
 [node name="Dice" type="Node2D" parent="."]
 
@@ -32,6 +49,8 @@ position = Vector2(72, 456)
 position = Vector2(72, 584)
 
 [connection signal="pressed" from="Roll" to="." method="OnRollPressed"]
+[connection signal="pressed" from="Clear" to="." method="OnClearPressed"]
+[connection signal="pressed" from="Evaluate" to="." method="OnEvaluatePressed"]
 [connection signal="DieRolled" from="Dice/Die1" to="." method="OnDieRolled"]
 [connection signal="OnHoverOff" from="Dice/Die1" to="." method="OnDieHoverOff"]
 [connection signal="OnHoverOn" from="Dice/Die1" to="." method="OnDieHoverOn"]

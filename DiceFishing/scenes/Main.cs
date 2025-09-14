@@ -1,11 +1,15 @@
 using Godot;
+using System.Collections.Generic;
 using System.Linq;
+
 
 public partial class Main : Node2D
 {
     private const int DieCount = 5;
 
     private Die[] _dice;
+
+    private List<Dice.DiceType> _diceData;
 
     public override void _Ready()
     {
@@ -14,6 +18,8 @@ public partial class Main : Node2D
         {
             _dice[i] = GetNode<Die>($"Dice/Die{i + 1}");
         }
+
+        _diceData = new List<Dice.DiceType>();
     }
 
     public override void _Input(InputEvent @event)
@@ -27,13 +33,7 @@ public partial class Main : Node2D
                 if (collider != null)
                 {
                     collider.ShowOutline();
-                }
-                else
-                {
-                    foreach (var die in _dice)
-                    {
-                        die.HideOutline();
-                    }
+                    _diceData.Add((Dice.DiceType)collider.Value);
                 }
             }
         }
@@ -68,6 +68,20 @@ public partial class Main : Node2D
         {
             _dice[i].Roll(i + 1);
         }
+    }
+
+    public void OnClearPressed()
+    {
+        _diceData.Clear();
+        foreach (var die in _dice)
+        {
+            die.HideOutline();
+        }
+    }
+
+    public void OnEvaluatePressed()
+    {
+        GD.Print(Dice.Evaluate(_diceData));
     }
 
     public void OnDieRolled()
