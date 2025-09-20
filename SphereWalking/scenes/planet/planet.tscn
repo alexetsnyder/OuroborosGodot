@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbtil20c3pf06"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_p4lu5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_invnv"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q7o7h"]
+
+[node name="Planet" type="StaticBody3D"]
+
+[node name="PlanetMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+mesh = SubResource("SphereMesh_p4lu5")
+skeleton = NodePath("../PlanetCollision")
+
+[node name="PlanetCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+shape = SubResource("SphereShape3D_invnv")
+
+[node name="PlanetGravity" type="Area3D" parent="."]
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+
+[node name="PlanetGravityCollider" type="CollisionShape3D" parent="PlanetGravity"]
+transform = Transform3D(11, 0, 0, 0, 11, 0, 0, 0, 11, 0, 0, 0)
+shape = SubResource("SphereShape3D_q7o7h")

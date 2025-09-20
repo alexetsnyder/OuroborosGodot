@@ -1,24 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://cd3xjlc4dd6dm"]
+[gd_scene load_steps=3 format=3 uid="uid://cd3xjlc4dd6dm"]
 
 [ext_resource type="PackedScene" uid="uid://cwdroxqm0b55r" path="res://scenes/player/player.tscn" id="1_o5qli"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_sgp6g"]
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_o5qli"]
+[ext_resource type="PackedScene" uid="uid://dbtil20c3pf06" path="res://scenes/planet/planet.tscn" id="2_0wfyh"]
 
 [node name="Main" type="Node3D"]
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.848852, 0.528631, 0, -0.528631, 0.848852, 0, 3.50283, 1.44781)
+transform = Transform3D(1, 0, 0, 0, 0.7261189, 0.68756926, 0, -0.68756926, 0.7261189, 0, 6.3728986, 6.2414117)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.9578748, -0.024253622, 0.28616065, 0.080329664, 0.9340268, 0.34805372, -0.27572316, 0.356379, -0.89273226, 1.2538013, 5.2566586, -5.572909)
 
 [node name="Player" parent="." instance=ExtResource("1_o5qli")]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 1.12342, 0)
+transform = Transform3D(0.0012836695, 0.020267919, -0.19896623, 0.012576363, 0.19856834, 0.020308536, 0.19960003, -0.012641704, -3.1710323e-09, 0, 4.92741, -0.03035736)
 
-[node name="Ground" type="StaticBody3D" parent="."]
-
-[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("PlaneMesh_sgp6g")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("WorldBoundaryShape3D_o5qli")
+[node name="Planet" parent="." instance=ExtResource("2_0wfyh")]
