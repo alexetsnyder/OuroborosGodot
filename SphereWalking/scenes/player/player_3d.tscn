@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://ch1vch11hqfuj"]
+
+[ext_resource type="Script" uid="uid://bkqpc50oyior3" path="res://scenes/player/Player3d.cs" id="1_w63ml"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vw6wi"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_w63ml"]
+
+[node name="Player3D" type="RigidBody3D"]
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_w63ml")
+
+[node name="PlayerCollider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_vw6wi")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_w63ml")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9104456, 0.41362888, 0, -0.41362888, 0.9104456, 0, 0.53330433, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15911508, 3.2142873)

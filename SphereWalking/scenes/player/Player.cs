@@ -10,15 +10,23 @@ public partial class Player : CharacterBody3D
     private Vector3 _moveDirection = new();
     private Vector3 _lastStrongDirection = new();
 
+    private Vector3 _gravityVelocity = new();
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector3 velocity = Velocity;
 
-		// Add the gravity.
-		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
+        Vector3 gravityVelocity = new();
+
+        // Add the gravity.
+        if (!IsOnFloor())
+        {
+            _gravityVelocity += GetGravity() * (float)delta;
+        }
+        else
+        {
+            _gravityVelocity = Vector3.Zero;
+        }
 
         if (_moveDirection.Length() > 0.2)
         {
@@ -33,31 +41,33 @@ public partial class Player : CharacterBody3D
 
         // Get the input direction and handle the movement/deceleration.
         // As good practice, you should replace UI actions with custom gameplay actions.
-        //Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        //Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-        //if (direction != Vector3.Zero)
-        //{
-        //	velocity.X = direction.X * Speed;
-        //	velocity.Z = direction.Z * Speed;
-        //}
-        //else
-        //{
-        //	velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-        //	velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-        //}
-
         Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+        _moveDirection = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+        OrientCharacterToDirection(_lastStrongDirection, (float)delta);
 
-        _moveDirection = direction;
+        if (_moveDirection != Vector3.Zero)
+        {
+            velocity = _moveDirection * Speed;
+            //velocity.X = direction.X * Speed;
+            //velocity.Z = direction.Z * Speed;
+        }
+        else
+        {
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+            velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
+            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+        }
+
+        velocity += _gravityVelocity;
 
         //if (_lastStrongDirection == Vector3.Zero)
         //{
         //    _lastStrongDirection = _moveDirection.Normalized();
         //}
-        OrientCharacterToDirection(_lastStrongDirection, (float)delta);
+        //rientCharacterToDirection(_lastStrongDirection, (float)delta);
 
-        Velocity = velocity + _moveDirection * Speed;
+        Velocity = velocity;
+        UpDirection = Vector3.Up;
 		MoveAndSlide();
 	}
 

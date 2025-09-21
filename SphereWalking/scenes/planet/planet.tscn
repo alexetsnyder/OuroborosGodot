@@ -11,7 +11,6 @@
 [node name="PlanetMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
 mesh = SubResource("SphereMesh_p4lu5")
-skeleton = NodePath("../PlanetCollision")
 
 [node name="PlanetCollider" type="CollisionShape3D" parent="."]
 transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)

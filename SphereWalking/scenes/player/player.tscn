@@ -16,3 +16,9 @@ mesh = SubResource("CapsuleMesh_8afob")
 
 [node name="PlayerCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_dovo2")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.95473486, 0.2974582, 0, -0.2974582, 0.95473486, 0, 0.49295628, 0)
+
+[node name="PlayerCamera" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.2143593)
