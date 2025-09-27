@@ -47,6 +47,8 @@ public partial class Player3d : RigidBody3D
 		{
 			ApplyCentralForce(_moveDirection * Speed);
 		}
+
+		
 	}
 
 	private Vector3 GetModelOrientedInput()
@@ -70,7 +72,8 @@ public partial class Player3d : RigidBody3D
 	{
 		var leftAxis = -_localGravity.Cross(direction);
 		var rotationBasis = new Basis(leftAxis, -_localGravity, direction).Orthonormalized();
-        Transform.Basis.GetRotationQuaternion().Slerp(rotationBasis.GetRotationQuaternion().Normalized(), delta * RotationSpeed);
+        //Transform.Basis.GetRotationQuaternion().Slerp(rotationBasis.GetRotationQuaternion().Normalized(), delta * RotationSpeed);
+		Transform.Basis.Slerp(rotationBasis, delta * RotationSpeed);
     }
 
 	private bool IsJumping(PhysicsDirectBodyState3D state)

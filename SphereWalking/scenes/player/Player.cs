@@ -10,46 +10,40 @@ public partial class Player : CharacterBody3D
     private Vector3 _moveDirection = new();
     private Vector3 _lastStrongDirection = new();
 
+    private Vector3 _localGravity = new();
+
     private Vector3 _gravityVelocity = new();
 
-	public override void _PhysicsProcess(double delta)
-	{
-		Vector3 velocity = Velocity;
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector3 velocity = Velocity;
 
-        Vector3 gravityVelocity = new();
+        _localGravity = GetGravity();
 
+        if (_localGravity != Vector3.Zero)
+        {
+            Rotation = ((new Quaternion(-Transform.Basis.Y, _localGravity)) * Transform.Basis.GetRotationQuaternion()).Normalized().GetEuler();
+        }
+        
         // Add the gravity.
         if (!IsOnFloor())
         {
-            _gravityVelocity += GetGravity() * (float)delta;
-        }
-        else
-        {
-            _gravityVelocity = Vector3.Zero;
-        }
-
-        if (_moveDirection.Length() > 0.2)
-        {
-            _lastStrongDirection = _moveDirection.Normalized();
+            velocity += _localGravity * (float)delta;
         }
 
         // Handle Jump.
-        //if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-        //{
-        //	velocity.Y = JumpVelocity;
-        //}
+        if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
+        {
+            velocity = _localGravity * JumpVelocity;
+        }
 
         // Get the input direction and handle the movement/deceleration.
         // As good practice, you should replace UI actions with custom gameplay actions.
         Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        _moveDirection = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-        OrientCharacterToDirection(_lastStrongDirection, (float)delta);
-
-        if (_moveDirection != Vector3.Zero)
+        Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+        if (direction != Vector3.Zero)
         {
-            velocity = _moveDirection * Speed;
-            //velocity.X = direction.X * Speed;
-            //velocity.Z = direction.Z * Speed;
+            velocity = direction * Speed;
         }
         else
         {
@@ -58,24 +52,16 @@ public partial class Player : CharacterBody3D
             velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
         }
 
-        velocity += _gravityVelocity;
-
-        //if (_lastStrongDirection == Vector3.Zero)
-        //{
-        //    _lastStrongDirection = _moveDirection.Normalized();
-        //}
-        //rientCharacterToDirection(_lastStrongDirection, (float)delta);
-
+       // UpDirection = -_localGravity.Normalized();
         Velocity = velocity;
-        UpDirection = Vector3.Up;
-		MoveAndSlide();
-	}
+        MoveAndSlide();
+    }
 
     private void OrientCharacterToDirection(Vector3 direction, float delta)
     {
-        var localGravity = GetGravity();
-        var leftAxis = -localGravity.Cross(direction);
-        var rotationBasis = new Basis(leftAxis, -localGravity,  direction).Orthonormalized();
-        Transform.Basis.GetRotationQuaternion().Slerp(rotationBasis.GetRotationQuaternion().Normalized(), delta * RotationSpeed);
+        var leftAxis = -_localGravity.Cross(direction);
+        var rotationBasis = new Basis(leftAxis, -_localGravity,  direction).Orthonormalized();
+        //var quat = Transform.Basis.GetRotationQuaternion().Slerp(rotationBasis.GetRotationQuaternion().Normalized(), delta * RotationSpeed);
+        Transform.Basis.Slerp(rotationBasis, delta * RotationSpeed);
     }
 }
