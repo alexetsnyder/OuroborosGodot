@@ -53,7 +53,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"roll",
-"speed": 7.0
+"speed": 20.0
 }]
 
 [node name="Die" type="Area2D"]
@@ -75,6 +75,7 @@ shape = SubResource("RectangleShape2D_vq5di")
 position = Vector2(0.5, 0)
 sprite_frames = SubResource("SpriteFrames_xl0wk")
 animation = &"roll"
+frame_progress = 0.57630503
 
 [node name="RollTimer" type="Timer" parent="."]
 one_shot = true

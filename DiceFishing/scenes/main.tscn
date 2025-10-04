@@ -6,7 +6,11 @@
 [node name="Main" type="Node2D"]
 script = ExtResource("1_o5qli")
 
-[node name="Roll" type="Button" parent="."]
+[node name="FishingUI" type="Node2D" parent="."]
+position = Vector2(124, -3)
+metadata/_edit_group_ = true
+
+[node name="Roll" type="Button" parent="FishingUI"]
 offset_left = 180.0
 offset_top = 157.0
 offset_right = 393.0
@@ -14,7 +18,7 @@ offset_bottom = 279.0
 theme_override_font_sizes/font_size = 44
 text = "Roll"
 
-[node name="Clear" type="Button" parent="."]
+[node name="Clear" type="Button" parent="FishingUI"]
 offset_left = 178.0
 offset_top = 290.0
 offset_right = 391.0
@@ -23,7 +27,7 @@ theme_override_font_sizes/font_size = 44
 text = "Clear "
 autowrap_mode = 2
 
-[node name="Evaluate" type="Button" parent="."]
+[node name="Evaluate" type="Button" parent="FishingUI"]
 offset_left = 179.0
 offset_top = 425.0
 offset_right = 392.0
@@ -31,38 +35,38 @@ offset_bottom = 547.0
 theme_override_font_sizes/font_size = 44
 text = "Evaluate"
 
-[node name="Dice" type="Node2D" parent="."]
+[node name="Dice" type="Node2D" parent="FishingUI"]
 
-[node name="Die1" parent="Dice" instance=ExtResource("2_0wfyh")]
+[node name="Die1" parent="FishingUI/Dice" instance=ExtResource("2_0wfyh")]
 position = Vector2(72, 72)
 
-[node name="Die2" parent="Dice" instance=ExtResource("2_0wfyh")]
+[node name="Die2" parent="FishingUI/Dice" instance=ExtResource("2_0wfyh")]
 position = Vector2(72, 200)
 
-[node name="Die3" parent="Dice" instance=ExtResource("2_0wfyh")]
+[node name="Die3" parent="FishingUI/Dice" instance=ExtResource("2_0wfyh")]
 position = Vector2(72, 328)
 
-[node name="Die4" parent="Dice" instance=ExtResource("2_0wfyh")]
+[node name="Die4" parent="FishingUI/Dice" instance=ExtResource("2_0wfyh")]
 position = Vector2(72, 456)
 
-[node name="Die5" parent="Dice" instance=ExtResource("2_0wfyh")]
+[node name="Die5" parent="FishingUI/Dice" instance=ExtResource("2_0wfyh")]
 position = Vector2(72, 584)
 
-[connection signal="pressed" from="Roll" to="." method="OnRollPressed"]
-[connection signal="pressed" from="Clear" to="." method="OnClearPressed"]
-[connection signal="pressed" from="Evaluate" to="." method="OnEvaluatePressed"]
-[connection signal="DieRolled" from="Dice/Die1" to="." method="OnDieRolled"]
-[connection signal="OnHoverOff" from="Dice/Die1" to="." method="OnDieHoverOff"]
-[connection signal="OnHoverOn" from="Dice/Die1" to="." method="OnDieHoverOn"]
-[connection signal="DieRolled" from="Dice/Die2" to="." method="OnDieRolled"]
-[connection signal="OnHoverOff" from="Dice/Die2" to="." method="OnDieHoverOff"]
-[connection signal="OnHoverOn" from="Dice/Die2" to="." method="OnDieHoverOn"]
-[connection signal="DieRolled" from="Dice/Die3" to="." method="OnDieRolled"]
-[connection signal="OnHoverOff" from="Dice/Die3" to="." method="OnDieHoverOff"]
-[connection signal="OnHoverOn" from="Dice/Die3" to="." method="OnDieHoverOn"]
-[connection signal="DieRolled" from="Dice/Die4" to="." method="OnDieRolled"]
-[connection signal="OnHoverOff" from="Dice/Die4" to="." method="OnDieHoverOff"]
-[connection signal="OnHoverOn" from="Dice/Die4" to="." method="OnDieHoverOn"]
-[connection signal="DieRolled" from="Dice/Die5" to="." method="OnDieRolled"]
-[connection signal="OnHoverOff" from="Dice/Die5" to="." method="OnDieHoverOff"]
-[connection signal="OnHoverOn" from="Dice/Die5" to="." method="OnDieHoverOn"]
+[connection signal="pressed" from="FishingUI/Roll" to="." method="OnRollPressed"]
+[connection signal="pressed" from="FishingUI/Clear" to="." method="OnClearPressed"]
+[connection signal="pressed" from="FishingUI/Evaluate" to="." method="OnEvaluatePressed"]
+[connection signal="DieRolled" from="FishingUI/Dice/Die1" to="." method="OnDieRolled"]
+[connection signal="OnHoverOff" from="FishingUI/Dice/Die1" to="." method="OnDieHoverOff"]
+[connection signal="OnHoverOn" from="FishingUI/Dice/Die1" to="." method="OnDieHoverOn"]
+[connection signal="DieRolled" from="FishingUI/Dice/Die2" to="." method="OnDieRolled"]
+[connection signal="OnHoverOff" from="FishingUI/Dice/Die2" to="." method="OnDieHoverOff"]
+[connection signal="OnHoverOn" from="FishingUI/Dice/Die2" to="." method="OnDieHoverOn"]
+[connection signal="DieRolled" from="FishingUI/Dice/Die3" to="." method="OnDieRolled"]
+[connection signal="OnHoverOff" from="FishingUI/Dice/Die3" to="." method="OnDieHoverOff"]
+[connection signal="OnHoverOn" from="FishingUI/Dice/Die3" to="." method="OnDieHoverOn"]
+[connection signal="DieRolled" from="FishingUI/Dice/Die4" to="." method="OnDieRolled"]
+[connection signal="OnHoverOff" from="FishingUI/Dice/Die4" to="." method="OnDieHoverOff"]
+[connection signal="OnHoverOn" from="FishingUI/Dice/Die4" to="." method="OnDieHoverOn"]
+[connection signal="DieRolled" from="FishingUI/Dice/Die5" to="." method="OnDieRolled"]
+[connection signal="OnHoverOff" from="FishingUI/Dice/Die5" to="." method="OnDieHoverOff"]
+[connection signal="OnHoverOn" from="FishingUI/Dice/Die5" to="." method="OnDieHoverOn"]

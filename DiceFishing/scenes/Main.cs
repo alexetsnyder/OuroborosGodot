@@ -16,7 +16,7 @@ public partial class Main : Node2D
         _dice = new Die[DieCount];
         for (int i = 0; i < DieCount; i++)
         {
-            _dice[i] = GetNode<Die>($"Dice/Die{i + 1}");
+            _dice[i] = GetNode<Die>($"FishingUI/Dice/Die{i + 1}");
         }
 
         _diceData = new List<Dice.DiceType>();
@@ -66,7 +66,7 @@ public partial class Main : Node2D
     {
         for (int i = 0; i < DieCount; i++)
         {
-            _dice[i].Roll(i + 1);
+            _dice[i].Roll(2);
         }
     }
 
