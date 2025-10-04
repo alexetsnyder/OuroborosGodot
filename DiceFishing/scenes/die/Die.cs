@@ -11,6 +11,8 @@ public partial class Die : Area2D
     [Signal]
     public delegate void OnHoverOffEventHandler(Area2D emitter);
 
+    public bool IsSelected { get; set; } = false;
+
     private const int FrameCount = 5;
 
     public int Value

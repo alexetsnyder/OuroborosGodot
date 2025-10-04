@@ -5,6 +5,9 @@ using System.Linq;
 
 public partial class Main : Node2D
 {
+    [Export]
+    public int RollTimeInSeconds { get; set; } = 2;
+
     private const int DieCount = 5;
 
     private Die[] _dice;
@@ -32,6 +35,7 @@ public partial class Main : Node2D
                 var collider = RaycastFromMousePosition();
                 if (collider != null)
                 {
+                    collider.IsSelected = true;
                     collider.ShowOutline();
                     _diceData.Add((Dice.DiceType)collider.Value);
                 }
@@ -66,7 +70,12 @@ public partial class Main : Node2D
     {
         for (int i = 0; i < DieCount; i++)
         {
-            _dice[i].Roll(2);
+            var die = _dice[i];
+            if (!die.IsRolling && !die.IsSelected)
+            {
+                _dice[i].Roll(RollTimeInSeconds);
+            }
+            
         }
     }
 
@@ -76,6 +85,7 @@ public partial class Main : Node2D
         foreach (var die in _dice)
         {
             die.HideOutline();
+            die.IsSelected = false;
         }
     }
 
