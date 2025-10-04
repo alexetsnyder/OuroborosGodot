@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dd5lnv0fo78no"]
+[gd_scene load_steps=5 format=3 uid="uid://dd5lnv0fo78no"]
 
 [ext_resource type="Script" uid="uid://cuk75b6pemaio" path="res://scenes/Main.cs" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://bfyydy7goqqx2" path="res://scenes/die/die.tscn" id="2_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://bwvpsgwdlmhhq" path="res://assets/sprites/progress_bar/ProgressBarUnder.png" id="2_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://detfe4ry76eu0" path="res://assets/sprites/progress_bar/ProgressBarProgress.png" id="3_tbgi4"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_o5qli")
@@ -9,6 +11,22 @@ script = ExtResource("1_o5qli")
 [node name="FishingUI" type="Node2D" parent="."]
 position = Vector2(124, -3)
 metadata/_edit_group_ = true
+
+[node name="FishingRegress" type="TextureProgressBar" parent="FishingUI"]
+offset_left = -82.0
+offset_top = 15.0
+offset_right = -22.0
+offset_bottom = 642.0
+max_value = 10.0
+value = 10.0
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_left = 30
+stretch_margin_top = 30
+stretch_margin_right = 30
+stretch_margin_bottom = 30
+texture_under = ExtResource("2_jyhfs")
+texture_progress = ExtResource("3_tbgi4")
 
 [node name="Roll" type="Button" parent="FishingUI"]
 offset_left = 180.0
