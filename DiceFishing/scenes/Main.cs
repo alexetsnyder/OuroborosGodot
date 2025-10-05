@@ -92,8 +92,6 @@ public partial class Main : Node2D
 
             }
 
-            //var tween = GetTree().CreateTween();
-            //tween.TweenProperty(_fishingRegress, "value", _fishingRegress.Value - _regressNumber, 0.8);
             _fishingRegress.Regress(_regressNumber);
             _regressNumber = 0;
         }
@@ -114,6 +112,12 @@ public partial class Main : Node2D
         GD.Print(Dice.Evaluate(_diceData));
     }
 
+    public void OnResetPressed()
+    {
+        OnClearPressed();
+        _fishingRegress.Reset();
+    }
+
     public void OnDieRolled()
     {
         bool allDiceRolled =_dice.All(d => !d.IsRolling);
@@ -132,5 +136,5 @@ public partial class Main : Node2D
     public void OnDieHoverOff(Area2D emitter)
     {
         emitter.Scale = new Vector2(1f, 1f);
-    }
+    } 
 }
