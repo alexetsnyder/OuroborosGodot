@@ -145,7 +145,7 @@ public partial class Dice
 
     public static bool IsStraight(List<DiceType> dice)
     {
-        if (dice.Count > 0)
+        if (dice.Count > 4)
         {
             var firstValue = dice[0];
             for (int i = 1; i < dice.Count; i++)

@@ -31,11 +31,6 @@ public partial class Main : Node2D
         _diceData = new List<Dice.DiceType>();
     }
 
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-    }
-
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton inputEventMouseButton && 
@@ -46,9 +41,16 @@ public partial class Main : Node2D
                 var collider = RaycastFromMousePosition();
                 if (collider != null)
                 {
-                    collider.IsSelected = true;
-                    collider.ShowOutline();
-                    _diceData.Add((Dice.DiceType)collider.Value);
+                    if (collider.IsSelected)
+                    {
+                        collider.IsSelected = false;
+                        _diceData.Remove((Dice.DiceType)collider.Value);
+                    }
+                    else
+                    {
+                        collider.IsSelected = true;
+                        _diceData.Add((Dice.DiceType)collider.Value);
+                    }    
                 }
             }
         }
@@ -102,7 +104,6 @@ public partial class Main : Node2D
         _diceData.Clear();
         foreach (var die in _dice)
         {
-            die.HideOutline();
             die.IsSelected = false;
         }
     }
@@ -114,8 +115,11 @@ public partial class Main : Node2D
 
     public void OnResetPressed()
     {
-        OnClearPressed();
-        _fishingRegress.Reset();
+        if (_dice.All(d => !d.IsRolling))
+        {
+            OnClearPressed();
+            _fishingRegress.Reset();
+        } 
     }
 
     public void OnDieRolled()

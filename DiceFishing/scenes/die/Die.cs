@@ -11,7 +11,24 @@ public partial class Die : Area2D
     [Signal]
     public delegate void OnHoverOffEventHandler(Area2D emitter);
 
-    public bool IsSelected { get; set; } = false;
+    public bool _isSelected = false;
+
+    public bool IsSelected 
+    { 
+        get => _isSelected; 
+        set
+        {
+            _isSelected = value;
+            if (_isSelected)
+            {
+                ShowOutline();
+            }
+            else
+            {
+                HideOutline();
+            }
+        }
+    }
 
     private const int FrameCount = 5;
 
@@ -56,28 +73,28 @@ public partial class Die : Area2D
         _dieRoll.Frame = _currentFrame;
     }
 
-    public void ShowOutline()
+    private void ShowOutline()
     {
         _colorRect.Visible = true;
     }
 
-    public void HideOutline()
+    private void HideOutline()
     {
         _colorRect.Visible = false;
     }
 
-    public void OnRollTimerTimeout()
+    private void OnRollTimerTimeout()
     {
         Stop();
         EmitSignal(SignalName.DieRolled);
     }
 
-    public void OnMouseEntered()
+    private void OnMouseEntered()
     {
         EmitSignal(SignalName.OnHoverOn, this);
     }
 
-    public void OnMouseExited()
+    private void OnMouseExited()
     {
         EmitSignal(SignalName.OnHoverOff, this);
     }
