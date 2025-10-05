@@ -14,11 +14,13 @@ public partial class Main : Node2D
 
     private List<Dice.DiceType> _diceData;
 
-    private TextureProgressBar _fishingRegress;
+    private FishingRegress _fishingRegress;
+
+    private int _regressNumber = 0;
 
     public override void _Ready()
     {
-        _fishingRegress = GetNode<TextureProgressBar>("FishingUI/FishingRegress");
+        _fishingRegress = GetNode<FishingRegress>("FishingUI/FishingRegress");
 
         _dice = new Die[DieCount];
         for (int i = 0; i < DieCount; i++)
@@ -27,6 +29,11 @@ public partial class Main : Node2D
         }
 
         _diceData = new List<Dice.DiceType>();
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
     }
 
     public override void _Input(InputEvent @event)
@@ -72,18 +79,23 @@ public partial class Main : Node2D
 
     public void OnRollPressed()
     {
-        if (_fishingRegress.Value > 0)
+        if (_fishingRegress.Value > 0 && _dice.All(d => !d.IsRolling))
         {
             for (int i = 0; i < DieCount; i++)
             {
                 var die = _dice[i];
                 if (!die.IsRolling && !die.IsSelected)
                 {
-                    _fishingRegress.Value--;
+                    _regressNumber++;
                     _dice[i].Roll(RollTimeInSeconds);
                 }
 
             }
+
+            //var tween = GetTree().CreateTween();
+            //tween.TweenProperty(_fishingRegress, "value", _fishingRegress.Value - _regressNumber, 0.8);
+            _fishingRegress.Regress(_regressNumber);
+            _regressNumber = 0;
         }
     }
 
