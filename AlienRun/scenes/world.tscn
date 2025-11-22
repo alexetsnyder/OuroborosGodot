@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://mlmiftdbt2ii"]
+
+[ext_resource type="PackedScene" uid="uid://bc1cnnhvkuvjx" path="res://scenes/lane/lane.tscn" id="1_nnsk1"]
+
+[node name="World" type="Node2D"]
+
+[node name="Lane" parent="." instance=ExtResource("1_nnsk1")]
