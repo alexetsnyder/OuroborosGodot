@@ -12,25 +12,26 @@ public partial class Lane : Node2D
 
     private List<Vector2> _convexHull;
 
+	private List<Vector2> _innerPoints = [];
+
+	private List<Vector2> _outerPoints = [];
+
+	private List<Vector2> _curves = [];
+
 	public override void _Ready()
 	{
 		_randomPoints = GetRandomPoints(60, 1092, 60, 598, 10);
 
         _convexHull = ConvexHull.Jarvis(_randomPoints);
 
-		_lane = GetNode<Line2D>("LaneLine");
+        CalculateCurves();
+
+        _lane = GetNode<Line2D>("LaneLine");
 		_lane.DefaultColor = new Color(0, 1, 0, 1);
-		foreach (var point in _convexHull)
+		foreach (var point in _curves)
 		{
 			_lane.AddPoint(point);
 		}
-
-		if (_convexHull.Count > 0)
-		{
-			_lane.AddPoint(_convexHull[0]);
-		}
-
-		AddCustomPoints();
 	}
 
     public override void _Draw()
@@ -57,10 +58,38 @@ public partial class Lane : Node2D
 		return points;
 	}
 
+	private void CalculateCurves()
+	{
+		AddCustomPoints();
+
+		var tValues = new List<float> { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f };
+
+		for (int i = 0; i < _convexHull.Count; i++)
+		{
+			if (i == 0)
+			{
+				var last = _outerPoints.Count;
+				for (int j = 0; j < tValues.Count;  j++)
+				{
+					var v = Bezier.Quadratic(_outerPoints[last - 1], _convexHull[i], _innerPoints[i], tValues[j]);
+					_curves.Add(v);
+				}
+			}
+			else
+			{
+                for (int j = 0; j < tValues.Count; j++)
+                {
+                    var v = Bezier.Quadratic(_outerPoints[i - 1], _convexHull[i], _innerPoints[i], tValues[j]);
+                    _curves.Add(v);
+                }
+            }
+		}
+
+		_curves.Add(_outerPoints[^1]);
+	}
+
 	private void AddCustomPoints()
 	{
-		List<Vector2> innerPoints = [];
-		List<Vector2> outerPoints = [];
 		for (int i = 0; i < _convexHull.Count; i++)
 		{
 			var randPerc = _randomNumberGenerator.RandfRange(0.1f, 0.4f); // 0.1f + _randomNumberGenerator.Randf() * (0.4f - 0.1f);
@@ -71,12 +100,12 @@ public partial class Lane : Node2D
             GD.Print($"Outer Perc: {randPerc}");
             var outerPoint = CalculateCustomPoint(_convexHull[i], _convexHull[(i + 1) % _convexHull.Count], randPerc);
 
-			innerPoints.Add(innerPoint);
-			outerPoints.Add(outerPoint);
+			_innerPoints.Add(innerPoint);
+			_outerPoints.Add(outerPoint);
         }
 
-		_randomPoints.AddRange(innerPoints);
-		_randomPoints.AddRange(outerPoints);
+		_randomPoints.AddRange(_innerPoints);
+		_randomPoints.AddRange(_outerPoints);
 	}
 
 	private Vector2 CalculateCustomPoint(Vector2 point1, Vector2 point2, float percent)
