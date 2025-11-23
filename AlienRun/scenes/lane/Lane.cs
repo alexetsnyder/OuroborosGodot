@@ -12,7 +12,6 @@ public partial class Lane : Node2D
 
     private List<Vector2> _convexHull;
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_randomPoints = GetRandomPoints(60, 1092, 60, 598, 10);
@@ -30,11 +29,8 @@ public partial class Lane : Node2D
 		{
 			_lane.AddPoint(_convexHull[0]);
 		}
-	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+		AddCustomPoints();
 	}
 
     public override void _Draw()
@@ -42,7 +38,7 @@ public partial class Lane : Node2D
         base._Draw();
 		foreach (var point in _randomPoints)
 		{
-			DrawCircle(point, 10.0f, new Color(0.0f, 0.0f, 0.0f));
+			DrawCircle(point, 6.0f, new Color(0.0f, 0.0f, 0.0f));
 		}
     }
 
@@ -59,5 +55,34 @@ public partial class Lane : Node2D
 		}
 
 		return points;
+	}
+
+	private void AddCustomPoints()
+	{
+		List<Vector2> innerPoints = [];
+		List<Vector2> outerPoints = [];
+		for (int i = 0; i < _convexHull.Count; i++)
+		{
+			var randPerc = _randomNumberGenerator.RandfRange(0.1f, 0.4f); // 0.1f + _randomNumberGenerator.Randf() * (0.4f - 0.1f);
+			GD.Print($"Inner Perc: {randPerc}");
+			var innerPoint = CalculateCustomPoint(_convexHull[i], _convexHull[(i + 1) % _convexHull.Count], randPerc);
+
+			randPerc = _randomNumberGenerator.RandfRange(0.6f, 0.9f); // 0.6f + _randomNumberGenerator. .Randf() * (0.9f - 0.6f);
+            GD.Print($"Outer Perc: {randPerc}");
+            var outerPoint = CalculateCustomPoint(_convexHull[i], _convexHull[(i + 1) % _convexHull.Count], randPerc);
+
+			innerPoints.Add(innerPoint);
+			outerPoints.Add(outerPoint);
+        }
+
+		_randomPoints.AddRange(innerPoints);
+		_randomPoints.AddRange(outerPoints);
+	}
+
+	private Vector2 CalculateCustomPoint(Vector2 point1, Vector2 point2, float percent)
+	{
+		var x = (1.0f - percent) * point1.X + percent * point2.X;
+		var y = (1.0f - percent) * point1.Y + percent * point2.Y;
+		return new Vector2(x, y);
 	}
 }
