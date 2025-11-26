@@ -1,9 +1,17 @@
 using AlienRun.scenes.lane;
+using AlienRun.scenes.math;
 using Godot;
 using System.Collections.Generic;
 
 public partial class Lane : Node2D
 {
+	[Export]
+	public float PerturbScale
+	{
+		get;
+		set;
+	} = 1.0f;
+
 	private RandomNumberGenerator _randomNumberGenerator = new RandomNumberGenerator();
 
 	private Line2D _lane;
@@ -18,11 +26,17 @@ public partial class Lane : Node2D
 
 	private List<Vector2> _curves = [];
 
+	private FastNoiseLite _noise = new();
+
 	public override void _Ready()
 	{
+		_noise.NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth;
+
 		_randomPoints = GetRandomPoints(60, 1092, 60, 598, 10);
 
         _convexHull = ConvexHull.Jarvis(_randomPoints);
+
+		//PerturbPoints();
 
         CalculateCurves();
 
@@ -56,6 +70,24 @@ public partial class Lane : Node2D
 		}
 
 		return points;
+	}
+
+	private void PerturbPoints()
+	{
+		var center = Math.Mean(_convexHull);
+
+		for (int i = 0; i <  _convexHull.Count; i++)
+		{
+			var point = _convexHull[i];
+
+            var noiseValue = PerturbScale * _noise.GetNoise2D(point.X, point.Y);
+			
+            var newPoint = point + noiseValue * center;
+
+			GD.Print($"Point: {point} vs newPoint: {newPoint}");
+
+			_convexHull[i] = newPoint;
+		}
 	}
 
 	private void CalculateCurves()
@@ -92,12 +124,10 @@ public partial class Lane : Node2D
 	{
 		for (int i = 0; i < _convexHull.Count; i++)
 		{
-			var randPerc = _randomNumberGenerator.RandfRange(0.1f, 0.4f); // 0.1f + _randomNumberGenerator.Randf() * (0.4f - 0.1f);
-			GD.Print($"Inner Perc: {randPerc}");
+			var randPerc = _randomNumberGenerator.RandfRange(0.1f, 0.4f);
 			var innerPoint = CalculateCustomPoint(_convexHull[i], _convexHull[(i + 1) % _convexHull.Count], randPerc);
 
-			randPerc = _randomNumberGenerator.RandfRange(0.6f, 0.9f); // 0.6f + _randomNumberGenerator. .Randf() * (0.9f - 0.6f);
-            GD.Print($"Outer Perc: {randPerc}");
+			randPerc = _randomNumberGenerator.RandfRange(0.6f, 0.9f);
             var outerPoint = CalculateCustomPoint(_convexHull[i], _convexHull[(i + 1) % _convexHull.Count], randPerc);
 
 			_innerPoints.Add(innerPoint);
