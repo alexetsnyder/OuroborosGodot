@@ -5,3 +5,4 @@
 [node name="Main" type="Node2D"]
 
 [node name="Lane" parent="." instance=ExtResource("1_nnsk1")]
+PerturbScale = 1.5

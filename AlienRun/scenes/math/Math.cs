@@ -21,7 +21,7 @@ namespace AlienRun.scenes.math
 
         public static Vector2 Midpoint(Vector2 p1,  Vector2 p2)
         {
-            return (p1 + p1) / 2.0f;
+            return (p1 + p2) / 2.0f;
         }
     }
 }

@@ -79,8 +79,6 @@ namespace AlienRun.scenes.lane
 
             midPoint = center + PerturbScale * (midPoint - center);
 
-            GD.Print($"MidPoint: {midPoint}");
-
             _convexHull.Insert(index + 1, midPoint);
             _randomPoints.Add(new DrawablePoint(midPoint, new Color(1, 0, 0)));
         }
