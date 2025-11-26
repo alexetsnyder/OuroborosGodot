@@ -18,5 +18,10 @@ namespace AlienRun.scenes.math
 
             return new Vector2(xSum / points.Count, ySum / points.Count);
         }
+
+        public static Vector2 Midpoint(Vector2 p1,  Vector2 p2)
+        {
+            return (p1 + p1) / 2.0f;
+        }
     }
 }
