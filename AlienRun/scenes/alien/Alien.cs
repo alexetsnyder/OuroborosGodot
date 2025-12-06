@@ -10,5 +10,22 @@ namespace AlienRun.scenes.alien
             get;
             set;
         } = 5;
+
+        private Sprite2D _alienSprite;
+
+        public override void _Ready()
+        {
+            _alienSprite = GetNode<Sprite2D>("AlienSprite");
+        }
+
+        public void Show()
+        {
+            _alienSprite.Show();
+        }
+
+        public void Hide()
+        {
+            _alienSprite.Hide();
+        }
     }
 }

@@ -8,6 +8,8 @@ namespace AlienRun.scenes.lane
 {
     public partial class Lane : Node2D
     {
+        #region Attributes
+
         [Export]
         public float PerturbScale
         {
@@ -19,13 +21,15 @@ namespace AlienRun.scenes.lane
 
         private Line2D _lane;
 
+        private Path2D _lanePath;
+
         private PathFollow2D _lanePathFollow;
 
         private Alien _alien;
 
-        private List<DrawablePoint> _randomPoints;
+        private List<DrawablePoint> _randomPoints = [];
 
-        private List<Vector2> _convexHull;
+        private List<Vector2> _convexHull = [];
 
         private List<Vector2> _innerPoints = [];
 
@@ -33,34 +37,43 @@ namespace AlienRun.scenes.lane
 
         private List<Vector2> _curves = [];
 
+        private bool _isRacing = false;
+
+        #endregion
+
+        #region Overrides
+
         public override void _Ready()
         {
-            _randomPoints = [.. GetRandomPoints(60, 1092, 60, 598, 10).Select(p => new DrawablePoint(p, new Color(0, 0, 0)))];
+            //_randomPoints = [.. GetRandomPoints(640, 1280, 60, 480, 10).Select(p => new DrawablePoint(p, new Color(0, 0, 0)))];
 
-            _convexHull = ConvexHull.Jarvis([.. _randomPoints.Select(d => d.Point)]);
+            //_convexHull = ConvexHull.Jarvis([.. _randomPoints.Select(d => d.Point)]);
 
-            AddMidpoint();
+            //AddMidpoint();
 
-            CalculateCurves();
-
-            _lanePathFollow = GetNode<PathFollow2D>("LanePath/LanePathFollow");
-            _alien = GetNode<Alien>("LanePath/LanePathFollow/Alien");
+            //CalculateCurves();
 
             _lane = GetNode<Line2D>("LaneLine");
             _lane.DefaultColor = new Color(1, 1, 1, 1);
 
-            var path = GetNode<Path2D>("LanePath");
+            _lanePath = GetNode<Path2D>("LanePath");
+            _lanePathFollow = GetNode<PathFollow2D>("LanePath/LanePathFollow");
+            _alien = GetNode<Alien>("LanePath/LanePathFollow/Alien");
+            _alien.Hide();
 
-            foreach (var point in _curves)
-            {
-                _lane.AddPoint(point);
-                path.Curve.AddPoint(point);
-            }
+            //foreach (var point in _curves)
+            //{
+            //    _lane.AddPoint(point);
+            //    path.Curve.AddPoint(point);
+            //}
         }
 
         public override void _Process(double delta)
         {
-            _lanePathFollow.Progress += (float)(_alien.Speed * delta);
+            if (_isRacing)
+            {
+                _lanePathFollow.Progress += (float)(_alien.Speed * delta);
+            }   
         }
 
         public override void _Draw()
@@ -70,6 +83,83 @@ namespace AlienRun.scenes.lane
             {
                 DrawCircle(point.Point, 6.0f, point.Color);
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Reset()
+        {
+            _alien.Hide();
+            _isRacing = false;
+            _lanePathFollow.Progress = 0;
+            _lane.ClearPoints();
+            _lanePath.Curve.ClearPoints();
+
+            _randomPoints.Clear();
+            _convexHull.Clear();
+            _innerPoints.Clear();
+            _outerPoints.Clear();
+            _curves.Clear();
+
+            QueueRedraw();
+        }
+
+
+        public void GenerateRandomPoints()
+        {
+            _randomPoints.AddRange([.. GetRandomPoints(640, 1280, 60, 480, 10).Select(p => new DrawablePoint(p, new Color(0, 0, 0)))]);
+            QueueRedraw();
+        }
+
+        public void GenerateConvexHull()
+        {
+            _convexHull.AddRange(ConvexHull.Jarvis([.. _randomPoints.Select(d => d.Point)]));
+
+            foreach (var point in _convexHull)
+            {
+                _lane.AddPoint(point);
+            }
+
+            if (_convexHull.Count > 0)
+            {
+                _lane.AddPoint(_convexHull.First());
+            }
+            
+            QueueRedraw();
+        }
+
+        public void AddMidpoints()
+        {
+            AddMidpoint();
+            QueueRedraw();
+        }
+
+        public void GenerateCurves()
+        {
+            _lane.ClearPoints();
+
+            CalculateCurves();
+
+            foreach (var point in _curves)
+            {
+                _lane.AddPoint(point);
+            }
+
+            QueueRedraw();
+        }
+
+        public void GeneratePath()
+        {
+            _alien.Show();
+
+            foreach (var point in _curves)
+            {
+                _lanePath.Curve.AddPoint(point);
+            }
+
+            _isRacing = true;
         }
 
         private List<Vector2> GetRandomPoints(int minWidth, int maxWidth, int minHeight, int maxHeight, int n)
@@ -154,6 +244,13 @@ namespace AlienRun.scenes.lane
             var y = (1.0f - percent) * point1.Y + percent * point2.Y;
             return new Vector2(x, y);
         }
+
+        #endregion
+
+        #region Signals
+
+
+        #endregion
     }
 
 }
