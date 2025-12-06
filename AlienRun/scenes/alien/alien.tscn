@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdpujsfsiobg"]
+
+[ext_resource type="Script" uid="uid://b3u3tdfnmlyiq" path="res://scenes/alien/Alien.cs" id="1_xit3u"]
+[ext_resource type="Texture2D" uid="uid://dximf11tyas7i" path="res://assets/textures/Haowan_Curses_1440x450.png" id="2_y7hky"]
+
+[node name="Alien" type="Node2D"]
+script = ExtResource("1_xit3u")
+
+[node name="AlienSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_y7hky")
+region_enabled = true
+region_rect = Rect2(20.5, 72, 12, 18)

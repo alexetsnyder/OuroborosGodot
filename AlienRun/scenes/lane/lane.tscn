@@ -1,9 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc1cnnhvkuvjx"]
+[gd_scene load_steps=4 format=3 uid="uid://bc1cnnhvkuvjx"]
 
 [ext_resource type="Script" uid="uid://dtxlduerrbsj" path="res://scenes/lane/Lane.cs" id="1_q2kvu"]
+[ext_resource type="PackedScene" uid="uid://bdpujsfsiobg" path="res://scenes/alien/alien.tscn" id="2_7i0ow"]
+
+[sub_resource type="Curve2D" id="Curve2D_q2kvu"]
 
 [node name="Lane" type="Node2D"]
 script = ExtResource("1_q2kvu")
 
 [node name="LaneLine" type="Line2D" parent="."]
 width = 2.0
+
+[node name="LanePath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_q2kvu")
+
+[node name="LanePathFollow" type="PathFollow2D" parent="LanePath"]
+
+[node name="Alien" parent="LanePath/LanePathFollow" instance=ExtResource("2_7i0ow")]
+Speed = 100

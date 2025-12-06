@@ -1,3 +1,4 @@
+using AlienRun.scenes.alien;
 using AlienRun.scenes.math;
 using Godot;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace AlienRun.scenes.lane
         private RandomNumberGenerator _randomNumberGenerator = new RandomNumberGenerator();
 
         private Line2D _lane;
+
+        private PathFollow2D _lanePathFollow;
+
+        private Alien _alien;
 
         private List<DrawablePoint> _randomPoints;
 
@@ -38,12 +43,24 @@ namespace AlienRun.scenes.lane
 
             CalculateCurves();
 
+            _lanePathFollow = GetNode<PathFollow2D>("LanePath/LanePathFollow");
+            _alien = GetNode<Alien>("LanePath/LanePathFollow/Alien");
+
             _lane = GetNode<Line2D>("LaneLine");
             _lane.DefaultColor = new Color(1, 1, 1, 1);
+
+            var path = GetNode<Path2D>("LanePath");
+
             foreach (var point in _curves)
             {
                 _lane.AddPoint(point);
+                path.Curve.AddPoint(point);
             }
+        }
+
+        public override void _Process(double delta)
+        {
+            _lanePathFollow.Progress += (float)(_alien.Speed * delta);
         }
 
         public override void _Draw()
